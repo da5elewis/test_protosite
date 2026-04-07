@@ -142,7 +142,20 @@
                 .then(function (res) { render(res[0], res[1]); })
                 .catch(function ()   { showError('Weather unavailable'); });
             },
-            function () { showLocationPrompt(); },
+            function (err) {
+              var msgs = {
+                1: 'Location permission denied (code 1). Check site permissions in the address bar.',
+                2: 'Location unavailable (code 2). Your device may not have GPS or network positioning.',
+                3: 'Location timed out (code 3). Try again or use city search.'
+              };
+              var msg = msgs[err.code] || 'Location error (code ' + err.code + ').';
+              setState(
+                '<div class="weather-state" style="font-size:0.75rem">' + msg +
+                ' <button id="weather-back-btn" style="cursor:pointer;border:none;background:transparent;' +
+                'color:inherit;text-decoration:underline;padding:0;font-size:0.75rem">Use city search</button></div>'
+              );
+              document.getElementById('weather-back-btn').addEventListener('click', showLocationPrompt);
+            },
             { timeout: 8000 }
           );
         }
