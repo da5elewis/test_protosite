@@ -38,23 +38,28 @@
         <a href="about/index.html" class="btn btn-ghost">How this works</a>
       </div>
 
-      <!-- Stats bar -->
-      <div class="stats-bar">
-        <div class="stat">
-          <div class="stat-number">3</div>
-          <div class="stat-label">Experiments logged</div>
+      <!-- Stats bar + weather -->
+      <div class="hero-bottom">
+        <div class="stats-bar">
+          <div class="stat">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Experiments logged</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Key learnings</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">3</div>
+            <div class="stat-label">AI tools tested</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">Apr '26</div>
+            <div class="stat-label">Last updated</div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-number">5</div>
-          <div class="stat-label">Key learnings</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">3</div>
-          <div class="stat-label">AI tools tested</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">Apr '26</div>
-          <div class="stat-label">Last updated</div>
+        <div id="weather-widget" class="weather-card" aria-live="polite">
+          <div class="weather-state">Detecting location…</div>
         </div>
       </div>
     </div>
@@ -176,5 +181,122 @@
     </div>
   </footer>
 
+  <script>
+  (function () {
+    var widget = document.getElementById('weather-widget');
+
+    var WMO = {
+      0:  { emoji: '&#x2600;&#xFE0F;',  label: 'Clear sky' },
+      1:  { emoji: '&#x1F324;&#xFE0F;', label: 'Mainly clear' },
+      2:  { emoji: '&#x26C5;',           label: 'Partly cloudy' },
+      3:  { emoji: '&#x2601;&#xFE0F;',  label: 'Overcast' },
+      45: { emoji: '&#x1F32B;&#xFE0F;', label: 'Foggy' },
+      48: { emoji: '&#x1F32B;&#xFE0F;', label: 'Icy fog' },
+      51: { emoji: '&#x1F326;&#xFE0F;', label: 'Light drizzle' },
+      53: { emoji: '&#x1F326;&#xFE0F;', label: 'Drizzle' },
+      55: { emoji: '&#x1F327;&#xFE0F;', label: 'Heavy drizzle' },
+      61: { emoji: '&#x1F327;&#xFE0F;', label: 'Light rain' },
+      63: { emoji: '&#x1F327;&#xFE0F;', label: 'Rain' },
+      65: { emoji: '&#x1F327;&#xFE0F;', label: 'Heavy rain' },
+      71: { emoji: '&#x1F328;&#xFE0F;', label: 'Light snow' },
+      73: { emoji: '&#x1F328;&#xFE0F;', label: 'Snow' },
+      75: { emoji: '&#x2744;&#xFE0F;',  label: 'Heavy snow' },
+      77: { emoji: '&#x1F328;&#xFE0F;', label: 'Snow grains' },
+      80: { emoji: '&#x1F326;&#xFE0F;', label: 'Rain showers' },
+      81: { emoji: '&#x1F327;&#xFE0F;', label: 'Heavy showers' },
+      82: { emoji: '&#x26C8;&#xFE0F;',  label: 'Violent showers' },
+      85: { emoji: '&#x1F328;&#xFE0F;', label: 'Snow showers' },
+      86: { emoji: '&#x2744;&#xFE0F;',  label: 'Heavy snow showers' },
+      95: { emoji: '&#x26C8;&#xFE0F;',  label: 'Thunderstorm' },
+      96: { emoji: '&#x26C8;&#xFE0F;',  label: 'Thunderstorm + hail' },
+      99: { emoji: '&#x26C8;&#xFE0F;',  label: 'Thunderstorm + hail' }
+    };
+
+    function setState(html) { widget.innerHTML = html; }
+
+    function showError(msg) {
+      setState('<div class="weather-state">' + msg + '</div>');
+    }
+
+    function render(data, locationName) {
+      var cw   = data.current_weather;
+      var tempF = Math.round(cw.temperature);
+      var condition = WMO[cw.weathercode] || { emoji: '&#x1F321;&#xFE0F;', label: 'Unknown' };
+      var emoji = (cw.windspeed > 30 && [95, 96, 99].indexOf(cw.weathercode) === -1)
+        ? '&#x1F4A8;' : condition.emoji;
+      var locHtml = locationName
+        ? '<div class="weather-location">' + locationName + '</div>' : '';
+      setState(
+        '<div class="weather-emoji">' + emoji + '</div>' +
+        '<div class="weather-temp">' + tempF + '&deg;F</div>' +
+        '<div class="weather-desc">' + condition.label + '</div>' +
+        locHtml
+      );
+    }
+
+    function fetchWeather(lat, lon) {
+      return fetch(
+        'https://api.open-meteo.com/v1/forecast' +
+        '?latitude='          + encodeURIComponent(lat) +
+        '&longitude='         + encodeURIComponent(lon) +
+        '&current_weather=true' +
+        '&temperature_unit=fahrenheit' +
+        '&wind_speed_unit=mph'
+      ).then(function (r) {
+        if (!r.ok) throw new Error('Weather request failed');
+        return r.json();
+      });
+    }
+
+    function reverseGeocode(lat, lon) {
+      return fetch(
+        'https://nominatim.openstreetmap.org/reverse?lat=' +
+        encodeURIComponent(lat) + '&lon=' + encodeURIComponent(lon) + '&format=json'
+      ).then(function (r) {
+        if (!r.ok) return null;
+        return r.json().then(function (d) {
+          var a    = d.address || {};
+          var city = a.city || a.town || a.village || a.county || '';
+          var st   = a.state_code || a.state || '';
+          return (city && st) ? city + ', ' + st : (city || null);
+        });
+      }).catch(function () { return null; });
+    }
+
+    function tryIpFallback() {
+      fetch('https://ipapi.co/json/')
+        .then(function (r) {
+          if (!r.ok) throw new Error();
+          return r.json();
+        })
+        .then(function (d) {
+          var lat  = d.latitude;
+          var lon  = d.longitude;
+          var name = (d.city && d.region_code) ? d.city + ', ' + d.region_code : (d.city || null);
+          fetchWeather(lat, lon)
+            .then(function (data) { render(data, name); })
+            .catch(function () { showError('Weather unavailable'); });
+        })
+        .catch(function () { showError('Weather unavailable'); });
+    }
+
+    if (!navigator.geolocation) {
+      tryIpFallback();
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      function (pos) {
+        var lat = pos.coords.latitude;
+        var lon = pos.coords.longitude;
+        Promise.all([fetchWeather(lat, lon), reverseGeocode(lat, lon)])
+          .then(function (res) { render(res[0], res[1]); })
+          .catch(function ()   { showError('Weather unavailable'); });
+      },
+      function () { tryIpFallback(); },
+      { timeout: 8000 }
+    );
+  }());
+  </script>
 </body>
 </html>

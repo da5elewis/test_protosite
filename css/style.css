@@ -310,6 +310,66 @@ p { line-height: 1.7; }
   color: var(--text-muted);
 }
 
+/* ── HERO BOTTOM (stats + weather row) ── */
+.hero-bottom {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.hero-bottom .stats-bar {
+  flex: 1;
+  margin: 0;
+}
+
+/* ── WEATHER WIDGET ── */
+.weather-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  min-width: 172px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.weather-emoji {
+  font-size: 2rem;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.weather-temp {
+  font-size: 1.875rem;
+  font-family: var(--font-serif);
+  color: var(--text);
+  line-height: 1;
+}
+
+.weather-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.weather-location {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 156px;
+}
+
+.weather-state {
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+
 /* ── CARDS ── */
 .card-grid {
   display: grid;
@@ -898,6 +958,24 @@ hr.divider {
   .hero { padding: 48px 0 40px; }
 
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
+
+  .hero-bottom {
+    flex-direction: column;
+  }
+
+  .weather-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    min-width: unset;
+    padding: 16px 20px;
+  }
+
+  .weather-emoji {
+    font-size: 1.75rem;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
 
   .two-col { grid-template-columns: 1fr; }
 
