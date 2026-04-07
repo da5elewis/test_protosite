@@ -132,30 +132,8 @@
         searchCity(query);
       });
       document.getElementById('weather-geo-btn').addEventListener('click', function () {
-        setState('<div class="weather-state">Detecting location\u2026</div>');
-        navigator.geolocation.getCurrentPosition(
-          function (pos) {
-            var lat = pos.coords.latitude;
-            var lon = pos.coords.longitude;
-            Promise.all([fetchWeather(lat, lon), reverseGeocode(lat, lon)])
-              .then(function (res) { render(res[0], res[1]); })
-              .catch(function ()   { showError('Weather unavailable'); });
-          },
-          function () { showError('Location unavailable'); },
-          { timeout: 8000 }
-        );
-      });
-    }
-
-    if (!navigator.geolocation) {
-      showLocationPrompt();
-      return;
-    }
-
-    // If permission already granted, fetch silently; otherwise show the location prompt.
-    if (navigator.permissions) {
-      navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-        if (result.state === 'granted') {
+        function doGeoRequest() {
+          setState('<div class="weather-state">Detecting location\u2026</div>');
           navigator.geolocation.getCurrentPosition(
             function (pos) {
               var lat = pos.coords.latitude;
@@ -167,11 +145,57 @@
             function () { showLocationPrompt(); },
             { timeout: 8000 }
           );
-        } else {
-          showLocationPrompt();
         }
-      }).catch(function () { showLocationPrompt(); });
-    } else {
+        if (navigator.permissions) {
+          navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+            if (result.state === 'denied') {
+              setState(
+                '<div class="weather-state" style="font-size:0.78rem">Location blocked for this site. ' +
+                'Click the \u{1F512} icon in the address bar \u2192 <strong>Site settings</strong> \u2192 ' +
+                'set <strong>Location</strong> to <em>Ask</em> or <em>Allow</em>, then reload.' +
+                ' <button id="weather-back-btn" style="cursor:pointer;border:none;background:transparent;' +
+                'color:inherit;text-decoration:underline;padding:0;font-size:0.78rem">Use city search</button></div>'
+              );
+              document.getElementById('weather-back-btn').addEventListener('click', showLocationPrompt);
+            } else {
+              doGeoRequest();
+            }
+          }).catch(function () { doGeoRequest(); });
+        } else {
+          doGeoRequest();
+        }
+      });
+    }
+
+    if (!navigator.geolocation) {
       showLocationPrompt();
+      return;
+    }
+
+    function requestGeo() {
+      setState('<div class="weather-state">Detecting location\u2026</div>');
+      navigator.geolocation.getCurrentPosition(
+        function (pos) {
+          var lat = pos.coords.latitude;
+          var lon = pos.coords.longitude;
+          Promise.all([fetchWeather(lat, lon), reverseGeocode(lat, lon)])
+            .then(function (res) { render(res[0], res[1]); })
+            .catch(function ()   { showError('Weather unavailable'); });
+        },
+        function () { showLocationPrompt(); },
+        { timeout: 8000 }
+      );
+    }
+
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
+        if (result.state === 'denied') {
+          showLocationPrompt();
+        } else {
+          requestGeo();
+        }
+      }).catch(function () { requestGeo(); });
+    } else {
+      requestGeo();
     }
   }());
