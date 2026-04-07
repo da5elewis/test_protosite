@@ -144,9 +144,9 @@
             },
             function (err) {
               var msgs = {
-                1: 'Location permission denied (code 1). Check site permissions in the address bar.',
-                2: 'Location unavailable (code 2). Your device may not have GPS or network positioning.',
-                3: 'Location timed out (code 3). Try again or use city search.'
+                1: 'Location permission denied. Check site permissions in the address bar.',
+                2: 'Location unavailable. Your device may not support network positioning.',
+                3: 'Location timed out. Try again or use city search.'
               };
               var msg = msgs[err.code] || 'Location error (code ' + err.code + ').';
               setState(
@@ -156,7 +156,7 @@
               );
               document.getElementById('weather-back-btn').addEventListener('click', showLocationPrompt);
             },
-            { timeout: 8000 }
+            { timeout: 15000, enableHighAccuracy: false, maximumAge: 300000 }
           );
         }
         if (navigator.permissions) {
@@ -196,7 +196,7 @@
             .catch(function ()   { showError('Weather unavailable'); });
         },
         function () { showLocationPrompt(); },
-        { timeout: 8000 }
+        { timeout: 15000, enableHighAccuracy: false, maximumAge: 300000 }
       );
     }
 
