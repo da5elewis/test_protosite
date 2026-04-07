@@ -183,24 +183,7 @@
             { timeout: 15000, enableHighAccuracy: false, maximumAge: 300000 }
           );
         }
-        if (navigator.permissions) {
-          navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-            if (result.state === 'denied') {
-              setState(
-                '<div class="weather-state" style="font-size:0.78rem">Location blocked for this site. ' +
-                'Click the \u{1F512} icon in the address bar \u2192 <strong>Site settings</strong> \u2192 ' +
-                'set <strong>Location</strong> to <em>Ask</em> or <em>Allow</em>, then reload.' +
-                ' <button id="weather-back-btn" style="cursor:pointer;border:none;background:transparent;' +
-                'color:inherit;text-decoration:underline;padding:0;font-size:0.78rem">Use city search</button></div>'
-              );
-              document.getElementById('weather-back-btn').addEventListener('click', showLocationPrompt);
-            } else {
-              doGeoRequest();
-            }
-          }).catch(function () { doGeoRequest(); });
-        } else {
-          doGeoRequest();
-        }
+        doGeoRequest();
       });
     }
 
@@ -235,14 +218,6 @@
       if (navigator.geolocation) { requestGeo(true); }
     } else if (!navigator.geolocation) {
       showLocationPrompt();
-    } else if (navigator.permissions) {
-      navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
-        if (result.state === 'denied') {
-          showLocationPrompt();
-        } else {
-          requestGeo(false);
-        }
-      }).catch(function () { requestGeo(false); });
     } else {
       requestGeo(false);
     }
