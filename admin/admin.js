@@ -36,6 +36,15 @@
       tools: 'Claude 3 Opus',
       desc: 'Tested whether Claude could turn raw sticky-note exports into a structured synthesis doc — with minimal prompting versus a detailed template.',
       file: 'experiment-003.html'
+    },
+    {
+      id: 'exp-004', number: '004',
+      title: 'Building a site with Protogen',
+      date: '2026-04-07', status: 'ongoing', signal: 'high',
+      category: 'Vibe Coding', categoryColor: 'blue',
+      tools: 'VS Code, Github, Vercel',
+      desc: 'This site was built using the Protogen 101 series of training, but using some different prompts to generate a site that could be useful for me and for the CX team as a whole.  The first round required copying and editing html pages to make changes. I requested an admin page to do this. After some debugging, I was able to create a new page using this admin form.  The admin form allows the export, editing, and deleting of existing experiments.  I\'ll test that next.',
+      file: 'experiment-004.html'
     }
   ];
 
