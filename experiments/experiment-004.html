@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 004: Building a site with Protogen — Field Notes</title>
+  <meta name="description" content="This site was built using the Protogen 101 series of training, but using some different prompts to generate a site that could be useful for me and for the CX team as a whole.  The first round required copying and editing html pages to make changes. I requested an admin page to do this. After some debugging, I was able to create a new page using this admin form.  The admin form allows the export, editing, and deleting of existing experiments.  I'll test that next.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+        <li><a href="../admin/index.html">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="experiment-header">
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.5 11L4.5 7L8.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        All Experiments
+      </a>
+      <div class="experiment-header-meta">
+        <span class="status-badge status--ongoing">Ongoing</span>
+        <span class="tag tag--blue">Vibe Coding</span>
+       
+        <span class="tag">VS Code</span>
+        <span class="tag">Github</span>
+        <span class="tag">Vercel</span>
+      </div>
+      <h1>Building a site with Protogen</h1>
+      <p class="experiment-header-desc">This site was built using the Protogen 101 series of training, but using some different prompts to generate a site that could be useful for me and for the CX team as a whole.  The first round required copying and editing html pages to make changes. I requested an admin page to do this. After some debugging, I was able to create a new page using this admin form.  The admin form allows the export, editing, and deleting of existing experiments.  I'll test that next.</p>
+    </div>
+  </header>
+
+  <div class="experiment-body">
+    <div class="container">
+      <div class="experiment-layout">
+
+        <div class="experiment-content">
+
+          <div class="experiment-section">
+            <div class="section-label">Context &amp; Goal</div>
+            <p>Slalom has a new offering we've dubbed Fast Forward, enabled by a rapid prototyping method we're calling Protogen.  As part of the Protogen training, I'm building this site, and making iterative changes to it to get familiar with the stack that underpins Protogen.  To step a bit away from the prompts offered in the training and move from just copying to experimenting, I've varied the prompts to generate a site that could be useful for me and for the CX team as a whole.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">What We Tried</div>
+            <p>The initial output was very basic, requiring copying and editing html pages that were generated from the first round of prompting.  To replace this basic and very manual approach, I requested the creation of an admin page.  That didn't work at first and required debugging (aka telling the agent how it was broken and watching it figure it out).  This resulted in partial functionality, but only updated summary tiles.  I requested another admin screen to generate the detail page and link it to the summary.  There are still improvements to be made, but I may proceed with them after doing some additional training...</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Results</div>
+            <p>This is a very iterative process.  Things either don't work as expected, partially work, or break entirely.  To continue improving the experience you just need to tell the VS Code agent what's broken, or what you want changed.  It's actually fun watching the agent's chain of thought as it is working through the problem or request.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Takeaway</div>
+            <div class="callout callout--green">
+              <div class="callout-label">Iteration is key</div>
+              <p>Generating a site experience this way involves a combination of clear strategic and creative direction, and iteration to continually improve on the result.  It's the traditional approach (define, design, develop, and 'measure' against your desired outcomes) but compressed.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="experiment-sidebar">
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Experiment Details</div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Date</span>
+              <span class="sidebar-row-value">April 7, 2026</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Tool / Model</span>
+              <span class="sidebar-row-value">VS Code, Github, Vercel</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Category</span>
+              <span class="sidebar-row-value">Vibe Coding</span>
+            </div>
+
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Signal level</span>
+              <span class="sidebar-row-value">High</span>
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

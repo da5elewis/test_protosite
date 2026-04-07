@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Editor — Field Notes Admin</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* ── ADMIN BANNER ── */
+    .admin-banner {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 7px 24px;
+    }
+
+    /* ── CONNECTION BANNER ── */
+    .conn-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      flex-wrap: wrap;
+    }
+    .conn-banner--off { background: var(--yellow-light); border: 1px solid var(--yellow); color: var(--text); }
+    .conn-banner--on  { background: var(--green-light);  border: 1px solid transparent;   color: var(--green); }
+    #conn-status { flex: 1; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 28px 0 20px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .page-header-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+    .breadcrumb a { color: var(--accent); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { color: var(--border); }
+    .page-header h1 { font-size: 1.5rem; margin-bottom: 4px; }
+    .page-header-sub { font-size: 0.875rem; color: var(--text-muted); }
+    .page-header-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+
+    /* ── LAYOUT ── */
+    .editor-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 28px;
+      padding: 28px 0 80px;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .editor-layout { grid-template-columns: 1fr; }
+      .editor-sidebar { order: -1; }
+    }
+
+    /* ── SECTION EDITOR ── */
+    .section-editor {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .section-editor-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--surface-tint);
+      border-bottom: 1px solid var(--border-soft);
+      cursor: pointer;
+      user-select: none;
+    }
+    .section-editor-header:hover { background: var(--bg); }
+    .section-editor-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .section-editor-badge {
+      font-size: 0.65rem;
+      color: var(--text-light);
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .section-toggle {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      transition: transform var(--transition);
+    }
+    .section-toggle.open { transform: rotate(180deg); }
+    .section-editor-body {
+      padding: 20px;
+      display: none;
+    }
+    .section-editor-body.open { display: block; }
+
+    /* ── FORM ELEMENTS ── */
+    .field-group {
+      margin-bottom: 16px;
+    }
+    .field-group:last-child { margin-bottom: 0; }
+    .field-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .field-hint {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+    textarea.field-input,
+    input.field-input {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      width: 100%;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      -webkit-appearance: none;
+      line-height: 1.65;
+    }
+    textarea.field-input { resize: vertical; }
+    textarea.field-input:focus,
+    input.field-input:focus {
+      outline: none;
+      border-color: var(--accent-mid);
+      box-shadow: 0 0 0 3px rgba(48, 89, 180, 0.12);
+    }
+    .field-input.tall { min-height: 120px; }
+    .field-input.short { min-height: 64px; }
+
+    /* ── CALLOUT BLOCK ── */
+    .callout-group {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    .callout-group.callout-green {
+      background: var(--green-light);
+      border-color: var(--green);
+    }
+    .callout-group-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-mid);
+      margin-bottom: 10px;
+    }
+    .callout-green .callout-group-label { color: var(--green); }
+    .callout-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .callout-toggle-row input[type="checkbox"] { cursor: pointer; }
+
+    /* ── OPTIONAL SECTION TOGGLE ── */
+    .optional-section { position: relative; }
+    .optional-section .optional-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(246,245,240,0.7);
+      border-radius: var(--radius-lg);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .optional-section.is-enabled .optional-overlay { display: none; }
+
+    /* ── SIDEBAR EDITOR ── */
+    .editor-sidebar {}
+    .sidebar-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .sidebar-section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-soft);
+      font-size: 0.82rem;
+      gap: 8px;
+    }
+    .meta-row:last-child { border-bottom: none; }
+    .meta-label { color: var(--text-light); flex-shrink: 0; }
+    .meta-value { color: var(--text); text-align: right; }
+
+    .related-row { margin-bottom: 12px; }
+    .related-row:last-child { margin-bottom: 0; }
+    .related-row-num {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+    .related-inputs { display: flex; flex-direction: column; gap: 5px; }
+
+    /* ── PUBLISH BAR ── */
+    .publish-bar {
+      position: sticky;
+      bottom: 0;
+      background: rgba(246,245,240,0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 1px solid var(--border);
+      padding: 12px 0;
+      z-index: 50;
+    }
+    .publish-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .draft-status {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+    .draft-status.saved { color: var(--green); }
+
+    /* ── SYNC MSG ── */
+    .sync-msg {
+      display: none;
+      position: fixed;
+      bottom: 72px;
+      right: 24px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 500;
+      z-index: 500;
+      box-shadow: var(--shadow-md);
+      max-width: 320px;
+    }
+    .sync-msg--ok  { background: var(--green-light); color: var(--green);  border: 1px solid transparent; }
+    .sync-msg--err { background: var(--red-light);   color: var(--red);    border: 1px solid var(--red-light); }
+
+    /* ── NOT FOUND ── */
+    .not-found {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-muted);
+    }
+    .not-found h2 { margin-bottom: 12px; font-family: var(--font-serif); font-weight: 400; }
+    .not-found p { font-size: 0.9rem; margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-banner">&#x1F512; Admin Area — Page Editor</div>
+
+  <!-- NAV -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../experiments/index.html">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+        <li><a href="index.html" class="active">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+
+      <!-- Connection banner -->
+      <div class="conn-banner" id="conn-banner" style="margin-top:20px">
+        <span id="conn-status"></span>
+        <button class="btn btn-ghost btn-sm" id="connect-btn">Connect site folder</button>
+      </div>
+
+      <!-- Not-found state (shown if no valid id param) -->
+      <div class="not-found" id="not-found" style="display:none">
+        <h2>Experiment not found</h2>
+        <p>No experiment matched that ID. Go back and choose one from the list.</p>
+        <a href="index.html" class="btn btn-ghost">Back to Experiments Admin</a>
+      </div>
+
+      <!-- Editor (shown when experiment found) -->
+      <div id="editor-root" style="display:none">
+
+        <!-- Page header -->
+        <div class="page-header">
+          <div class="breadcrumb">
+            <a href="index.html">Experiments Admin</a>
+            <span>/</span>
+            <span id="bc-title">Page Editor</span>
+          </div>
+          <div class="page-header-inner">
+            <div>
+              <h1 id="page-title">Loading…</h1>
+              <p class="page-header-sub" id="page-sub"></p>
+            </div>
+            <div class="page-header-actions">
+              <a id="view-link" href="#" target="_blank" class="btn btn-ghost btn-sm" style="display:none">View live page &#x2197;</a>
+              <button id="load-from-file-btn" class="btn btn-ghost btn-sm" style="display:none">Load from file</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Editor layout -->
+        <div class="editor-layout">
+
+          <!-- Main content sections -->
+          <div class="editor-main" id="editor-main">
+
+            <!-- Context & Goal -->
+            <div class="section-editor" id="sec-context">
+              <div class="section-editor-header" data-toggle="sec-context">
+                <span class="section-editor-title">Context &amp; Goal</span>
+                <span class="section-toggle open">&#x25BE;</span>
+              </div>
+              <div class="section-editor-body open">
+                <div class="field-group">
+                  <label class="field-label" for="f-context">Content</label>
+                  <textarea class="field-input tall" id="f-context" placeholder="Describe the context and goal of this experiment. Separate paragraphs with a blank line."></textarea>
+                  <p class="field-hint">Separate paragraphs with a blank line. Basic HTML tags (&lt;strong&gt;, &lt;a&gt;, &lt;em&gt;) are supported.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- What We Tried -->
+            <div class="section-editor" id="sec-tried">
+              <div class="section-editor-header" data-toggle="sec-tried">
+                <span class="section-editor-title">What We Tried</span>
+                <span class="section-toggle open">&#x25BE;</span>
+              </div>
+              <div class="section-editor-body open">
+                <div class="field-group">
+                  <label class="field-label" for="f-tried">Content</label>
+                  <textarea class="field-input tall" id="f-tried" placeholder="Describe what you tested, how you did it, and any setup details."></textarea>
+                  <p class="field-hint">Separate paragraphs with a blank line.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Results -->
+            <div class="section-editor" id="sec-results">
+              <div class="section-editor-header" data-toggle="sec-results">
+                <span class="section-editor-title">Results</span>
+                <span class="section-toggle open">&#x25BE;</span>
+              </div>
+              <div class="section-editor-body open">
+                <div class="field-group">
+                  <label class="field-label" for="f-results">Content</label>
+                  <textarea class="field-input tall" id="f-results" placeholder="What happened? What did you observe?"></textarea>
+                  <p class="field-hint">Separate paragraphs with a blank line.</p>
+                </div>
+                <div class="callout-toggle-row">
+                  <input type="checkbox" id="results-callout-enabled">
+                  <label for="results-callout-enabled" style="cursor:pointer">Include a callout block (Key Result)</label>
+                </div>
+                <div id="results-callout-wrap" style="display:none">
+                  <div class="callout-group" style="margin-top:12px">
+                    <div class="callout-group-label">Callout block</div>
+                    <div class="field-group">
+                      <label class="field-label" for="f-results-callout-label">Label</label>
+                      <input type="text" class="field-input" id="f-results-callout-label" placeholder="e.g. Key Result">
+                    </div>
+                    <div class="field-group">
+                      <label class="field-label" for="f-results-callout-body">Content</label>
+                      <textarea class="field-input short" id="f-results-callout-body" placeholder="The key finding from the results."></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Complications & Caveats (optional) -->
+            <div class="section-editor optional-section" id="sec-caveats">
+              <div class="optional-overlay" id="caveats-overlay">
+                <button class="btn btn-ghost btn-sm" id="enable-caveats-btn">+ Add Complications &amp; Caveats section</button>
+              </div>
+              <div class="section-editor-header" data-toggle="sec-caveats">
+                <span class="section-editor-title">Complications &amp; Caveats <span class="section-editor-badge">(optional)</span></span>
+                <span class="section-toggle open">&#x25BE;</span>
+              </div>
+              <div class="section-editor-body open">
+                <div class="field-group">
+                  <label class="field-label" for="f-caveats">Content</label>
+                  <textarea class="field-input tall" id="f-caveats" placeholder="What didn't go as expected? What caveats should readers keep in mind?"></textarea>
+                  <p class="field-hint">Separate paragraphs with a blank line. Leave blank to omit this section entirely.</p>
+                </div>
+                <button class="btn btn-ghost btn-sm" id="disable-caveats-btn" style="margin-top:8px">Remove this section</button>
+              </div>
+            </div>
+
+            <!-- Takeaway -->
+            <div class="section-editor" id="sec-takeaway">
+              <div class="section-editor-header" data-toggle="sec-takeaway">
+                <span class="section-editor-title">Takeaway</span>
+                <span class="section-toggle open">&#x25BE;</span>
+              </div>
+              <div class="section-editor-body open">
+                <div class="callout-group callout-green">
+                  <div class="callout-group-label">Green callout (required)</div>
+                  <div class="field-group">
+                    <label class="field-label" for="f-takeaway-label">Label</label>
+                    <input type="text" class="field-input" id="f-takeaway-label" placeholder="e.g. The Principle">
+                  </div>
+                  <div class="field-group">
+                    <label class="field-label" for="f-takeaway-callout">Content</label>
+                    <textarea class="field-input short" id="f-takeaway-callout" placeholder="The key takeaway in one or two sentences."></textarea>
+                  </div>
+                </div>
+                <div class="field-group" style="margin-top:16px">
+                  <label class="field-label" for="f-takeaway-extra">Additional paragraph <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.7rem;color:var(--text-light)">(optional)</span></label>
+                  <textarea class="field-input" id="f-takeaway-extra" placeholder="Optional extra context after the callout."></textarea>
+                  <p class="field-hint">Separate paragraphs with a blank line. Leave blank to omit.</p>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /editor-main -->
+
+          <!-- Sidebar editor -->
+          <aside class="editor-sidebar">
+
+            <div class="sidebar-section">
+              <div class="sidebar-section-title">Experiment Details</div>
+              <div class="meta-row"><span class="meta-label">Number</span><span class="meta-value" id="s-number">—</span></div>
+              <div class="meta-row"><span class="meta-label">Date</span><span class="meta-value" id="s-date">—</span></div>
+              <div class="meta-row"><span class="meta-label">Tool / Model</span><span class="meta-value" id="s-tools">—</span></div>
+              <div class="meta-row"><span class="meta-label">Category</span><span class="meta-value" id="s-category">—</span></div>
+              <div class="meta-row"><span class="meta-label">Signal</span><span class="meta-value" id="s-signal">—</span></div>
+              <div class="meta-row" style="align-items:flex-start;padding-top:10px">
+                <label class="meta-label field-label" for="f-effort" style="padding-top:2px">Effort</label>
+                <input type="text" class="field-input" id="f-effort" placeholder="e.g. ~3 hours" style="font-size:0.82rem;padding:5px 8px;max-width:120px;text-align:right">
+              </div>
+              <p class="field-hint" style="margin-top:4px">Other fields are managed from <a href="index.html" style="color:var(--accent)">Experiments Admin</a>.</p>
+            </div>
+
+            <div class="sidebar-section">
+              <div class="sidebar-section-title">Related Links</div>
+              <div class="related-row">
+                <div class="related-row-num">Link 1</div>
+                <div class="related-inputs">
+                  <input type="text" class="field-input" id="f-rel1-label" placeholder="Label (e.g. Experiment 002 →)">
+                  <input type="text" class="field-input" id="f-rel1-href" placeholder="URL (e.g. experiment-002.html)">
+                </div>
+              </div>
+              <div class="related-row">
+                <div class="related-row-num">Link 2</div>
+                <div class="related-inputs">
+                  <input type="text" class="field-input" id="f-rel2-label" placeholder="Label">
+                  <input type="text" class="field-input" id="f-rel2-href" placeholder="URL">
+                </div>
+              </div>
+            </div>
+
+            <div class="sidebar-section">
+              <div class="sidebar-section-title">Actions</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <button class="btn btn-ghost btn-sm" id="preview-btn" style="justify-content:center">Preview in new tab</button>
+                <a href="index.html" class="btn btn-ghost btn-sm" style="justify-content:center;text-align:center">&larr; Back to Admin</a>
+              </div>
+            </div>
+
+          </aside>
+
+        </div><!-- /editor-layout -->
+      </div><!-- /editor-root -->
+
+    </div><!-- /container -->
+  </main>
+
+  <!-- Sticky publish bar -->
+  <div class="publish-bar" id="publish-bar" style="display:none">
+    <div class="container">
+      <div class="publish-bar-inner">
+        <span class="draft-status" id="draft-status">Unsaved changes</span>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-ghost" id="save-draft-btn">Save draft</button>
+          <button class="btn btn-primary" id="publish-btn">Publish to file</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sync-msg" id="sync-msg"></div>
+
+  <script src="detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Field Notes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* ── ADMIN BANNER ── */
+    .admin-banner {
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 7px 24px;
+    }
+
+    /* ── ADMIN HEADER ── */
+    .admin-header {
+      padding: 36px 0 28px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .admin-header-inner {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .admin-header h1 {
+      font-size: 1.75rem;
+      margin-bottom: 4px;
+    }
+    .admin-header-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    /* ── FORM PANEL ── */
+    .form-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      margin: 28px 0 0;
+      display: none;
+    }
+    .form-panel.is-open { display: block; }
+
+    .form-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .form-panel-header h2 {
+      font-size: 1.05rem;
+    }
+    .form-panel-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      transition: color var(--transition), background var(--transition);
+    }
+    .form-panel-close:hover {
+      color: var(--text);
+      background: var(--surface-tint);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 24px;
+    }
+    .form-grid .full-width { grid-column: 1 / -1; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      width: 100%;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      -webkit-appearance: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-mid);
+      box-shadow: 0 0 0 3px rgba(48, 89, 180, 0.12);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+    .form-group .hint {
+      font-size: 0.72rem;
+      color: var(--text-light);
+    }
+
+    .form-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: var(--red);
+      border: 1px solid var(--red-light);
+    }
+    .btn-danger:hover {
+      background: var(--red-light);
+    }
+
+    /* ── EXPERIMENT LIST ── */
+    .admin-list-section {
+      padding: 28px 0 80px;
+    }
+    .admin-list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .admin-list-header h2 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .admin-count {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    .admin-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+      transition: box-shadow var(--transition);
+    }
+    .admin-row:hover { box-shadow: var(--shadow-sm); }
+    .admin-row.is-editing {
+      border-color: var(--accent-mid);
+      box-shadow: 0 0 0 3px rgba(48, 89, 180, 0.1);
+    }
+
+    .admin-row-num {
+      font-family: var(--font-serif);
+      font-size: 1.2rem;
+      color: var(--text-light);
+      min-width: 40px;
+    }
+    .admin-row-info { min-width: 0; }
+    .admin-row-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .admin-row-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .admin-row-date {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+
+    .admin-row-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn-sm {
+      font-size: 0.78rem;
+      padding: 6px 12px;
+    }
+
+    .btn-icon {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 5px 8px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      transition: all var(--transition);
+    }
+    .btn-icon:hover {
+      background: var(--surface-tint);
+      color: var(--text);
+    }
+    .btn-icon--delete:hover {
+      background: var(--red-light);
+      color: var(--red);
+      border-color: var(--red-light);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 56px 24px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-lg);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .empty-state p { margin-top: 8px; font-size: 0.875rem; color: var(--text-light); }
+
+    /* ── EXPORT MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 27, 24, 0.55);
+      z-index: 200;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+    }
+    .modal-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 700px;
+      padding: 32px;
+      transform: translateY(8px);
+      transition: transform 200ms ease;
+    }
+    .modal-overlay.is-open .modal { transform: translateY(0); }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .modal-header h2 { font-size: 1.05rem; }
+
+    .export-section { margin-bottom: 20px; }
+    .export-section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .copy-btn {
+      font-size: 0.7rem;
+      padding: 3px 9px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      cursor: pointer;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      transition: all var(--transition);
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 500;
+    }
+    .copy-btn:hover { background: var(--surface-tint); color: var(--text); }
+    .copy-btn.copied { background: var(--green-light); color: var(--green); border-color: transparent; }
+
+    .code-block {
+      background: var(--bg);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      font-family: 'Menlo', 'Consolas', monospace;
+      font-size: 0.72rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      white-space: pre;
+      overflow-x: auto;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    /* ── DELETE CONFIRM ── */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 27, 24, 0.55);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 150ms ease;
+    }
+    .confirm-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .confirm-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .confirm-box h3 { font-size: 1rem; margin-bottom: 10px; }
+    .confirm-box p { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 24px; }
+    .confirm-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    /* ── NOTICE ── */
+    .notice {
+      background: var(--yellow-light);
+      border: 1px solid var(--yellow);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 0.8rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .notice strong { color: var(--text); }
+
+    @media (max-width: 640px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .admin-row { grid-template-columns: auto 1fr; grid-template-rows: auto auto; }
+      .admin-row-status { grid-row: 2; }
+      .admin-row-actions { grid-row: 2; justify-self: end; }
+    }
+
+    /* ── CONNECTION BANNER ── */
+    .conn-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      line-height: 1.5;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .conn-banner--off {
+      background: var(--yellow-light);
+      border: 1px solid var(--yellow);
+      color: var(--text);
+    }
+    .conn-banner--on {
+      background: var(--green-light);
+      border: 1px solid transparent;
+      color: var(--green);
+    }
+    #conn-status { flex: 1; }
+
+    /* ── SYNC MESSAGE ── */
+    .sync-msg {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 500;
+      z-index: 500;
+      box-shadow: var(--shadow-md);
+      max-width: 320px;
+    }
+    .sync-msg--ok  { background: var(--green-light); color: var(--green);  border: 1px solid transparent; }
+    .sync-msg--err { background: var(--red-light);   color: var(--red);    border: 1px solid var(--red-light); }
+  </style>
+</head>
+<body>
+
+  <div class="admin-banner">&#x1F512; Admin Area — Not linked from the public site</div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../experiments/index.html">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+        <li><a href="index.html" class="active">Admin</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main>
+    <div class="container">
+
+      <!-- Header -->
+      <div class="admin-header">
+        <div class="admin-header-inner">
+          <div>
+            <h1>Experiments Admin</h1>
+            <p class="admin-header-sub">Add, edit, or remove experiments. Connect your site folder below to write changes directly to files.</p>
+          </div>
+          <button class="btn btn-primary" id="add-btn">+ Add New Experiment</button>
+        </div>
+      </div>
+
+      <!-- Site Folder Connection -->
+      <div class="conn-banner" id="conn-banner">
+        <span id="conn-status"></span>
+        <button class="btn btn-ghost btn-sm" id="connect-btn">Connect site folder</button>
+      </div>
+
+      <!-- Sync status toast -->
+      <div class="sync-msg" id="sync-msg"></div>
+
+      <!-- Add / Edit Form Panel -->
+      <div class="form-panel" id="form-panel">
+        <div class="form-panel-header">
+          <h2 id="form-title">Add New Experiment</h2>
+          <button class="form-panel-close" id="form-close" title="Close">&#x2715;</button>
+        </div>
+
+        <form id="experiment-form" novalidate>
+          <input type="hidden" id="edit-id">
+          <div class="form-grid">
+
+            <div class="form-group full-width">
+              <label for="f-title">Title <span style="color:var(--red)">*</span></label>
+              <input type="text" id="f-title" placeholder="e.g. Prompt Engineering for Strategy Briefs" required>
+            </div>
+
+            <div class="form-group">
+              <label for="f-number">Experiment Number <span style="color:var(--red)">*</span></label>
+              <input type="text" id="f-number" placeholder="e.g. 004">
+              <span class="hint">Used for file naming (experiment-004.html)</span>
+            </div>
+
+            <div class="form-group">
+              <label for="f-date">Date <span style="color:var(--red)">*</span></label>
+              <input type="date" id="f-date" required>
+            </div>
+
+            <div class="form-group">
+              <label for="f-status">Status</label>
+              <select id="f-status">
+                <option value="draft">Draft</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="complete">Complete</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="f-signal">Signal Level</label>
+              <select id="f-signal">
+                <option value="">— None —</option>
+                <option value="high">High signal</option>
+                <option value="nuanced">Nuanced</option>
+                <option value="low">Low signal</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="f-category">Category Tag</label>
+              <input type="text" id="f-category" placeholder="e.g. Prompt Design">
+            </div>
+
+            <div class="form-group">
+              <label for="f-category-color">Category Color</label>
+              <select id="f-category-color">
+                <option value="">Default (grey)</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="red">Red</option>
+              </select>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="f-tools">AI Tools Used</label>
+              <input type="text" id="f-tools" placeholder="e.g. Claude 3.5 Sonnet, GPT-4o">
+              <span class="hint">Comma-separated. Each becomes a separate tag.</span>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="f-desc">Short Description <span style="color:var(--red)">*</span></label>
+              <textarea id="f-desc" placeholder="2–3 sentences summarising what was tested and what happened." required></textarea>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="form-save-btn">Save Experiment</button>
+            <button type="button" class="btn btn-ghost" id="form-cancel-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Experiment List -->
+      <div class="admin-list-section">
+        <div class="admin-list-header">
+          <h2>All Experiments <span class="admin-count" id="exp-count"></span></h2>
+          <button class="btn btn-ghost btn-sm" id="reset-btn" title="Restore the 3 default experiments">Reset to defaults</button>
+        </div>
+        <div id="experiment-list"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── EXPORT MODAL ── -->
+  <div class="modal-overlay" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="export-modal-title">Export HTML</h2>
+        <button class="form-panel-close" id="export-modal-close">&#x2715;</button>
+      </div>
+
+      <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:20px;line-height:1.65">
+        Copy these snippets and paste them into the relevant places in your site's HTML files.
+      </p>
+
+      <div class="export-section">
+        <div class="export-section-label">
+          <span>Homepage card <code style="font-size:0.65rem;font-weight:400">(index.html → card-grid)</code></span>
+          <button class="copy-btn" data-target="card-code">Copy</button>
+        </div>
+        <div class="code-block" id="card-code"></div>
+      </div>
+
+      <div class="export-section">
+        <div class="export-section-label">
+          <span>Experiments list row <code style="font-size:0.65rem;font-weight:400">(experiments/index.html → experiments-table)</code></span>
+          <button class="copy-btn" data-target="row-code">Copy</button>
+        </div>
+        <div class="code-block" id="row-code"></div>
+      </div>
+
+      <div class="export-section">
+        <div class="export-section-label">
+          <span>Detail page template <code style="font-size:0.65rem;font-weight:400">(save as experiments/experiment-NNN.html)</code></span>
+          <button class="copy-btn" data-target="detail-code">Copy</button>
+        </div>
+        <div class="code-block" id="detail-code"></div>
+      </div>
+
+      <div style="margin-top:16px;text-align:right">
+        <button class="btn btn-ghost btn-sm" id="export-modal-close-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DELETE CONFIRM ── -->
+  <div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-box">
+      <h3>Delete experiment?</h3>
+      <p id="confirm-msg">This will remove the entry from this admin. The HTML file is <strong>not</strong> deleted automatically.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-danger" id="confirm-yes">Delete</button>
+        <button class="btn btn-ghost" id="confirm-no">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
