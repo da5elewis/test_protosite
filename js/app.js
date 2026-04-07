@@ -34,6 +34,24 @@
       setState('<div class="weather-state">' + msg + '</div>');
     }
 
+    function saveLocation(lat, lon, city) {
+      try {
+        localStorage.setItem('fieldnotes_weather_lat', lat);
+        localStorage.setItem('fieldnotes_weather_lon', lon);
+        localStorage.setItem('fieldnotes_weather_city', city || '');
+      } catch (e) {}
+    }
+
+    function getSavedLocation() {
+      try {
+        var lat  = parseFloat(localStorage.getItem('fieldnotes_weather_lat'));
+        var lon  = parseFloat(localStorage.getItem('fieldnotes_weather_lon'));
+        var city = localStorage.getItem('fieldnotes_weather_city') || '';
+        if (!isNaN(lat) && !isNaN(lon)) return { lat: lat, lon: lon, city: city };
+      } catch (e) {}
+      return null;
+    }
+
     function render(data, locationName) {
       var cw   = data.current_weather;
       var tempF = Math.round(cw.temperature);
@@ -104,7 +122,10 @@
         var place = d.results[0];
         var name  = place.name + (place.admin1 ? ', ' + place.admin1 : '');
         fetchWeather(place.latitude, place.longitude)
-          .then(function (data) { render(data, name); })
+          .then(function (data) {
+            saveLocation(place.latitude, place.longitude, name);
+            render(data, name);
+          })
           .catch(function () { showError('Weather unavailable'); });
       }).catch(function () { showError('Weather unavailable'); });
     }
@@ -139,7 +160,10 @@
               var lat = pos.coords.latitude;
               var lon = pos.coords.longitude;
               Promise.all([fetchWeather(lat, lon), reverseGeocode(lat, lon)])
-                .then(function (res) { render(res[0], res[1]); })
+                .then(function (res) {
+                  saveLocation(lat, lon, res[1]);
+                  render(res[0], res[1]);
+                })
                 .catch(function ()   { showError('Weather unavailable'); });
             },
             function (err) {
@@ -185,30 +209,41 @@
       return;
     }
 
-    function requestGeo() {
-      setState('<div class="weather-state">Detecting location\u2026</div>');
+    function requestGeo(silent) {
+      if (!silent) setState('<div class="weather-state">Detecting location\u2026</div>');
       navigator.geolocation.getCurrentPosition(
         function (pos) {
           var lat = pos.coords.latitude;
           var lon = pos.coords.longitude;
           Promise.all([fetchWeather(lat, lon), reverseGeocode(lat, lon)])
-            .then(function (res) { render(res[0], res[1]); })
-            .catch(function ()   { showError('Weather unavailable'); });
+            .then(function (res) {
+              saveLocation(lat, lon, res[1]);
+              render(res[0], res[1]);
+            })
+            .catch(function () { if (!silent) showError('Weather unavailable'); });
         },
-        function () { showLocationPrompt(); },
+        function () { if (!silent) showLocationPrompt(); },
         { timeout: 15000, enableHighAccuracy: false, maximumAge: 300000 }
       );
     }
 
-    if (navigator.permissions) {
+    var saved = getSavedLocation();
+    if (saved) {
+      fetchWeather(saved.lat, saved.lon)
+        .then(function (data) { render(data, saved.city); })
+        .catch(function () { showError('Weather unavailable'); });
+      if (navigator.geolocation) { requestGeo(true); }
+    } else if (!navigator.geolocation) {
+      showLocationPrompt();
+    } else if (navigator.permissions) {
       navigator.permissions.query({ name: 'geolocation' }).then(function (result) {
         if (result.state === 'denied') {
           showLocationPrompt();
         } else {
-          requestGeo();
+          requestGeo(false);
         }
-      }).catch(function () { requestGeo(); });
+      }).catch(function () { requestGeo(false); });
     } else {
-      requestGeo();
+      requestGeo(false);
     }
   }());
