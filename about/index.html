@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Field Notes</title>
+  <meta name="description" content="What this site is, how it works, and how to contribute.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../experiments/index.html">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="index.html" class="active">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="container">
+      <span class="eyebrow">About</span>
+      <h1>What this is<br>and why it exists</h1>
+      <p class="hero-desc">
+        Field Notes is a shared learning space for our team to document AI experiments, compare notes, and build a working knowledge base — from real work, not demos.
+      </p>
+    </div>
+  </header>
+
+  <!-- ── CONTENT ── -->
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="experiment-layout">
+
+          <!-- Main prose -->
+          <div class="prose">
+
+            <h2>Why we built this</h2>
+            <p>AI tools are evolving faster than most reading lists. The gap between "I tried something interesting" and "the team knows about it" is where useful knowledge disappears. This site exists to close that gap.</p>
+            <p>It's not a showcase. It's a working document — experiments that worked, ones that didn't, and the honest notes in between. The goal is a shared understanding of what these tools actually do in the context of our work, not a general theory of AI.</p>
+
+            <h2>What counts as an experiment</h2>
+            <p>An experiment is any intentional test of an AI tool against a real (or realistic) work task. It should have:</p>
+            <ul>
+              <li>A specific goal — what were you trying to do?</li>
+              <li>A defined approach — what did you actually try?</li>
+              <li>An honest assessment of results — what came back, and was it useful?</li>
+              <li>A takeaway — what does this mean for how we work?</li>
+            </ul>
+            <p>It doesn't need to be long. The goal is clarity and usefulness to someone else reading it, not comprehensiveness for its own sake.</p>
+
+            <h2>What we're not trying to do</h2>
+            <p>This isn't a place for general AI commentary, best-of lists, or theoretical exploration. Those resources exist elsewhere and are better done by others. We're focused on the specific question: <em>how do these tools actually perform in the context of strategy and consulting work?</em></p>
+            <p>We're also not trying to be right. The experiments are documented honestly — including the ones where AI underperformed, produced misleading results, or required so much rework that it wasn't worth the time. That signal is just as valuable.</p>
+
+            <h2 id="template">Experiment template</h2>
+            <p>Use this structure when adding a new experiment. Copy the HTML from any existing experiment page and update the content — the template is already built in.</p>
+
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="experiment-sidebar">
+            <div class="sidebar-card">
+              <div class="sidebar-card-title">Site structure</div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">Home</span>
+                <span class="sidebar-row-value">Overview + recent</span>
+              </div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">Experiments</span>
+                <span class="sidebar-row-value">Full experiment log</span>
+              </div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">Learnings</span>
+                <span class="sidebar-row-value">Distilled principles</span>
+              </div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">About</span>
+                <span class="sidebar-row-value">This page</span>
+              </div>
+            </div>
+            <div class="sidebar-card">
+              <div class="sidebar-card-title">Built with</div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">Stack</span>
+                <span class="sidebar-row-value">Plain HTML + CSS</span>
+              </div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">No frameworks</span>
+                <span class="sidebar-row-value">No build tools</span>
+              </div>
+              <div class="sidebar-row">
+                <span class="sidebar-row-label">Fonts</span>
+                <span class="sidebar-row-value">Inter + DM Serif Display</span>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Template section -->
+    <section class="section">
+      <div class="container" style="max-width:720px;">
+
+        <div class="section-header">
+          <h2>To add a new experiment</h2>
+        </div>
+
+        <ol class="step-list">
+          <li>Duplicate <code style="font-size:0.85em; background:var(--surface-tint); padding:2px 6px; border-radius:4px; border:1px solid var(--border);">experiments/experiment-001.html</code> and rename it with the next number.</li>
+          <li>Update the page title, meta description, header content, and all experiment-specific fields in the sidebar card.</li>
+          <li>Fill in the five main sections: Context &amp; Goal, What We Tried, Results, Complications &amp; Caveats, and Takeaway.</li>
+          <li>Add the experiment to the list in <code style="font-size:0.85em; background:var(--surface-tint); padding:2px 6px; border-radius:4px; border:1px solid var(--border);">experiments/index.html</code> — copy one of the existing <code style="font-size:0.85em; background:var(--surface-tint); padding:2px 6px; border-radius:4px; border:1px solid var(--border);">&lt;article class="experiment-row"&gt;</code> blocks and update it.</li>
+          <li>Add a card to the home page if it's one of the three most recent experiments. Update the stats bar numbers on the home page.</li>
+          <li>If it generates a new principle or reinforces an existing one, update the Learnings page.</li>
+        </ol>
+
+        <div class="callout" style="margin-top:28px;">
+          <div class="callout-label">Keep it honest</div>
+          <p>The value of this resource is that it reflects what actually happened — not a polished version. Include the complications and the results you didn't expect. That's where the real learning is.</p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

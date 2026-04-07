@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learnings — Field Notes</title>
+  <meta name="description" content="Distilled principles and patterns from our AI experiments.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../experiments/index.html">Experiments</a></li>
+        <li><a href="index.html" class="active">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="container">
+      <span class="eyebrow">Learnings</span>
+      <h1>What we know so far</h1>
+      <p class="hero-desc">
+        Principles distilled from the experiments. These are working hypotheses — informed by evidence, but subject to revision as we learn more.
+      </p>
+    </div>
+  </header>
+
+  <!-- ── CONTENT ── -->
+  <main>
+
+    <!-- Featured principle -->
+    <section class="section">
+      <div class="container">
+        <div class="featured-insight">
+          <span class="eyebrow">Most important insight</span>
+          <h2>Context is the prompt</h2>
+          <p>The single biggest driver of AI output quality is the context you establish before asking your question. Background, role, audience, constraints, format, examples — all of it shapes what comes out. Generic inputs return generic outputs. This isn't a limitation of the technology; it's a reflection of how language works.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Principles grid -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Five working principles</h2>
+        </div>
+
+        <div class="insights-grid">
+
+          <div class="insight-card">
+            <div class="insight-number">01</div>
+            <h3>Context is everything</h3>
+            <p>Role, audience, format, and examples are not optional extras — they're the inputs that determine output quality. Invest time in setup. The prompt is the brief.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">02</div>
+            <h3>Model choice should match the task</h3>
+            <p>Different models have meaningfully different default behaviors. GPT-4o is more decisive and action-oriented. Claude tends toward nuance and questioning assumptions. Neither is universally better — match the model to the moment.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">03</div>
+            <h3>Treat prompts like hypotheses</h3>
+            <p>The first prompt rarely produces the best result. Iteration is the discipline. Write it, evaluate the output critically, identify what's missing or off, refine. This is strategy work — it should feel familiar.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">04</div>
+            <h3>AI multiplies, it doesn't replace</h3>
+            <p>The sharpest outputs come when a human brings domain knowledge and judgment, then uses AI to accelerate, stress-test, or expand what they already know. Used without that foundation, AI tends toward confident mediocrity.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">05</div>
+            <h3>Ask AI to critique its own output</h3>
+            <p>One of the most underused moves: after getting an output, prompt the model to identify what it might have missed, what assumptions it made, and where its reasoning was weakest. It's surprisingly honest and often catches real gaps.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Patterns observed -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Patterns we keep seeing</h2>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start;">
+            <span style="font-family:var(--font-serif); font-size:1.5rem; color:var(--border);">→</span>
+            <div>
+              <h4 style="margin-bottom:6px;">Volume ≠ importance in synthesis</h4>
+              <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.65;">When using AI to synthesize workshop notes, Claude weights by volume — more notes per cluster = more coverage. But the most strategically significant themes are rarely the ones with the most sticky notes. Human recalibration is always required.</p>
+            </div>
+          </div>
+
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start;">
+            <span style="font-family:var(--font-serif); font-size:1.5rem; color:var(--border);">→</span>
+            <div>
+              <h4 style="margin-bottom:6px;">Role mismatch is costly late</h4>
+              <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.65;">If the role you set in a prompt doesn't match the actual context, the errors surface downstream — usually when you've already built on the output. Be precise about role, audience, and context from the start rather than trying to correct later.</p>
+            </div>
+          </div>
+
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start;">
+            <span style="font-family:var(--font-serif); font-size:1.5rem; color:var(--border);">→</span>
+            <div>
+              <h4 style="margin-bottom:6px;">Garbage-in compounds quickly</h4>
+              <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.65;">Input quality matters more with AI than with human researchers, because AI synthesizes without flagging ambiguity unless asked. One-word sticky notes, ambiguous phrasing, and missing context all degrade output — often invisibly until you look closely.</p>
+            </div>
+          </div>
+
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:24px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start;">
+            <span style="font-family:var(--font-serif); font-size:1.5rem; color:var(--border);">→</span>
+            <div>
+              <h4 style="margin-bottom:6px;">The self-critique prompt unlocks hidden value</h4>
+              <p style="font-size:0.875rem; color:var(--text-muted); line-height:1.65;">Asking the model to identify what it might have missed, what assumptions it made, and where it was uncertain — every single time, across every experiment — produced something worth acting on. Make this a default step in any AI-assisted workflow.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Tools we're using</h2>
+        </div>
+
+        <div class="resource-list">
+          <div class="resource-item">
+            <div>
+              <h4>Claude (Anthropic)</h4>
+              <p>Best for nuanced, ambiguous, or research-oriented tasks. Strong at identifying unstated assumptions. Tends toward longer, more qualified responses.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </div>
+          <div class="resource-item">
+            <div>
+              <h4>ChatGPT / GPT-4o (OpenAI)</h4>
+              <p>Best for structured, action-oriented outputs. Fast and well-organized. Tends toward decisive framing — can be overconfident on ambiguous questions.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </div>
+          <div class="resource-item">
+            <div>
+              <h4>Notion AI</h4>
+              <p>Useful for within-document tasks (summarize, expand, rewrite). Not suitable for complex reasoning, but convenient for quick drafting and cleanup inside existing docs.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </div>
+          <div class="resource-item">
+            <div>
+              <h4>Perplexity</h4>
+              <p>Best for research and desk review tasks where citations matter. Significantly reduces the risk of hallucination for factual questions because it surfaces sources inline.</p>
+            </div>
+            <span class="resource-arrow">↗</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

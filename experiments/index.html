@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiments — Field Notes</title>
+  <meta name="description" content="A log of AI experiments run against real strategy problems.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="container">
+      <span class="eyebrow">Experiments</span>
+      <h1>The log</h1>
+      <p class="hero-desc">
+        Each entry documents what we tried, what happened, and what it means. The goal isn't to prove AI is great — it's to understand when and how it's actually useful.
+      </p>
+    </div>
+  </header>
+
+  <!-- ── EXPERIMENTS LIST ── -->
+  <main>
+    <section class="section">
+      <div class="container">
+
+        <!-- Filter row (visual only) -->
+        <div style="display:flex; gap:8px; margin-bottom:28px; flex-wrap:wrap;">
+          <span class="tag tag--blue" style="cursor:default;">All (3)</span>
+          <span class="tag" style="cursor:default;">Prompt Design</span>
+          <span class="tag" style="cursor:default;">Model Comparison</span>
+          <span class="tag" style="cursor:default;">Synthesis</span>
+        </div>
+
+        <div class="experiments-table">
+
+          <!-- Experiment 003 -->
+          <article class="experiment-row">
+            <div class="experiment-row-main">
+              <div class="experiment-row-meta">
+                <span class="tag">Claude 3 Opus</span>
+                <span class="tag tag--blue">Synthesis</span>
+              </div>
+              <h3>Using AI to Synthesize Workshop Outputs</h3>
+              <p>Tested whether Claude could turn raw sticky-note exports into a structured synthesis doc — with minimal prompting versus a detailed template. The gap between the two approaches was dramatic.</p>
+            </div>
+            <div class="experiment-row-right">
+              <span class="card-date">Apr 1, 2026</span>
+              <span class="status-badge status--complete">Complete</span>
+              <a href="experiment-003.html" class="card-link" style="position:relative; z-index:1;">Read →</a>
+            </div>
+          </article>
+
+          <!-- Experiment 002 -->
+          <article class="experiment-row">
+            <div class="experiment-row-main">
+              <div class="experiment-row-meta">
+                <span class="tag">GPT-4o</span>
+                <span class="tag">Claude 3.5 Sonnet</span>
+                <span class="tag tag--yellow">Model Comparison</span>
+              </div>
+              <h3>Model Comparison: Handling Ambiguous Client Briefs</h3>
+              <p>Gave the same five ambiguous strategic questions to GPT-4o and Claude 3.5 Sonnet. Compared quality, nuance, and practical usefulness of responses. Results were more nuanced than expected.</p>
+            </div>
+            <div class="experiment-row-right">
+              <span class="card-date">Mar 22, 2026</span>
+              <span class="status-badge status--complete">Complete</span>
+              <a href="experiment-002.html" class="card-link" style="position:relative; z-index:1;">Read →</a>
+            </div>
+          </article>
+
+          <!-- Experiment 001 -->
+          <article class="experiment-row">
+            <div class="experiment-row-main">
+              <div class="experiment-row-meta">
+                <span class="tag">Claude 3.5 Sonnet</span>
+                <span class="tag tag--blue">Prompt Design</span>
+              </div>
+              <h3>Prompt Engineering for Strategy Briefs</h3>
+              <p>Tested three prompting approaches — zero context, role prompting, and few-shot examples — to see if an LLM could produce a usable strategy brief from a set of raw bullet-point notes.</p>
+            </div>
+            <div class="experiment-row-right">
+              <span class="card-date">Mar 10, 2026</span>
+              <span class="status-badge status--complete">Complete</span>
+              <a href="experiment-001.html" class="card-link" style="position:relative; z-index:1;">Read →</a>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── ADD AN EXPERIMENT CTA ── -->
+    <section class="section">
+      <div class="container">
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:32px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+          <div>
+            <h3 style="margin-bottom:6px;">Run your own experiment?</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted); max-width:420px;">Use the template in the <a href="../about/index.html" style="color:var(--accent); text-decoration:underline;">About</a> section to document what you tried and what you found. The more experiments, the better the signal.</p>
+          </div>
+          <a href="../about/index.html#template" class="btn btn-ghost">See the template →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

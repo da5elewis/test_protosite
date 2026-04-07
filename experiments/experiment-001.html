@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 001: Prompt Engineering for Strategy Briefs — Field Notes</title>
+  <meta name="description" content="Testing three prompting approaches to generate a client-ready strategy brief from raw bullet-point notes.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── EXPERIMENT HEADER ── -->
+  <header class="experiment-header">
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 11L4.5 7L8.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Experiments
+      </a>
+      <div class="experiment-header-meta">
+        <span class="status-badge status--complete">Complete</span>
+        <span class="tag tag--blue">Prompt Design</span>
+        <span class="tag">Claude 3.5 Sonnet</span>
+      </div>
+      <h1>Prompt Engineering for Strategy Briefs</h1>
+      <p class="experiment-header-desc">
+        Can an LLM turn bullet-point notes into a client-ready strategy brief? We tested three approaches — and the differences were significant.
+      </p>
+    </div>
+  </header>
+
+  <!-- ── EXPERIMENT BODY ── -->
+  <div class="experiment-body">
+    <div class="container">
+      <div class="experiment-layout">
+
+        <!-- ── MAIN CONTENT ── -->
+        <div class="experiment-content">
+
+          <div class="experiment-section">
+            <div class="section-label">Context &amp; Goal</div>
+            <p>After a client workshop, we're often left with a wall of sticky notes, a messy Miro board, and a brief to write by morning. The question: can an LLM do the heavy lifting of turning raw, unstructured notes into a coherent brief — well enough to be a real starting point rather than a toy?</p>
+            <p>The goal wasn't to see if AI could replace the thinking. It was to see if it could compress the time between "raw notes" and "structured first draft" — which is often where momentum dies.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">What We Tried</div>
+            <p>We tested three prompting approaches using the same set of raw notes from a real (anonymized) strategy workshop:</p>
+
+            <p><strong>Approach A — Zero context:</strong> Simply pasted the notes and asked Claude to "write a strategy brief from these." No role, no format, no guidance.</p>
+
+            <p><strong>Approach B — Role prompting:</strong> Set context upfront: "You are a senior strategy consultant. Your client is a mid-market financial services firm. Write a one-page strategy brief from these workshop notes aimed at a VP-level audience." Same notes, same model.</p>
+
+            <p><strong>Approach C — Few-shot with template:</strong> Provided a brief example of a well-structured strategy brief (with placeholder content), then asked Claude to use that format and style with the actual notes. Role context included.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Results</div>
+            <p><strong>Approach A</strong> produced a generic, listy document. It captured the content but missed the logic — there was no throughline, no recommended direction, no audience awareness. It read like a summary, not a strategy brief.</p>
+
+            <p><strong>Approach B</strong> was markedly better. Having a defined role and audience caused Claude to make choices — it elevated some points, buried others, and organized around a central argument. It wasn't perfect, but it was genuinely useful as a starting point.</p>
+
+            <p><strong>Approach C</strong> was the strongest output. Providing a structural example meant Claude adopted a consistent format, made appropriate section choices, and matched the tone expected by a VP audience. The output needed editing, not rewriting.</p>
+
+            <div class="callout">
+              <div class="callout-label">Key Result</div>
+              <p>Moving from Approach A to Approach C reduced editing time from ~90 minutes to ~25 minutes in our estimate. The content quality jumped most noticeably in logical structure and audience calibration.</p>
+            </div>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Complications &amp; Caveats</div>
+            <p>The few-shot example introduced a risk: the model sometimes leaned too heavily on the example's structure even when the content didn't call for it. We had to push back in a follow-up to restructure one section.</p>
+            <p>Also worth noting: the more specific the role prompt, the more important it is that the role accurately reflects the real context. A mismatch between the stated role ("senior consultant for a Fortune 500 tech firm") and the actual client situation led to off-key language that took time to undo.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Takeaway</div>
+            <div class="callout callout--green">
+              <div class="callout-label">The Principle</div>
+              <p>The gap between a useless AI output and a useful one is almost entirely determined by the context you set at the start. Role + audience + format example is your minimum viable prompt for structured deliverables.</p>
+            </div>
+            <p>The implication for team workflows: build a small library of prompt templates with role definitions and example outputs for the deliverable types you produce repeatedly — briefs, POVs, workshop reports, recommendation decks. The template becomes the institutional memory, not just the individual.</p>
+          </div>
+
+        </div>
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="experiment-sidebar">
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Experiment Details</div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Date</span>
+              <span class="sidebar-row-value">March 10, 2026</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Tool / Model</span>
+              <span class="sidebar-row-value">Claude 3.5 Sonnet</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Category</span>
+              <span class="sidebar-row-value">Prompt Design</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Effort</span>
+              <span class="sidebar-row-value">~3 hours</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Signal level</span>
+              <span class="sidebar-row-value">High</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Related</div>
+            <div class="sidebar-row">
+              <a href="experiment-002.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">Experiment 002: Model Comparison →</a>
+            </div>
+            <div class="sidebar-row">
+              <a href="../learnings/index.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">Learnings: Context is everything →</a>
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

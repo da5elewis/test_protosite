@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 002: Model Comparison — Field Notes</title>
+  <meta name="description" content="Comparing GPT-4o and Claude 3.5 Sonnet on ambiguous strategic questions.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── EXPERIMENT HEADER ── -->
+  <header class="experiment-header">
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 11L4.5 7L8.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Experiments
+      </a>
+      <div class="experiment-header-meta">
+        <span class="status-badge status--complete">Complete</span>
+        <span class="tag tag--yellow">Model Comparison</span>
+        <span class="tag">GPT-4o</span>
+        <span class="tag">Claude 3.5 Sonnet</span>
+      </div>
+      <h1>Model Comparison: Handling Ambiguous Client Briefs</h1>
+      <p class="experiment-header-desc">
+        Not all models are equal, and the differences matter more with ambiguous inputs. We ran the same five strategic questions through two leading models to see where each shines.
+      </p>
+    </div>
+  </header>
+
+  <!-- ── EXPERIMENT BODY ── -->
+  <div class="experiment-body">
+    <div class="container">
+      <div class="experiment-layout">
+
+        <!-- ── MAIN CONTENT ── -->
+        <div class="experiment-content">
+
+          <div class="experiment-section">
+            <div class="section-label">Context &amp; Goal</div>
+            <p>After Experiment 001, we had a solid grasp of how prompting style affects output quality within a single model. The next question was whether model selection matters as much — or more.</p>
+            <p>We see this come up frequently on client engagements: team members default to whichever model they're most familiar with, regardless of whether it's the right tool for the job. The hypothesis going in was that models would differ more than most people assume — and not in ways that are easy to predict.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">What We Tried</div>
+            <p>We wrote five ambiguous strategic prompts, each designed to have no clear "correct" answer and to require genuine judgment:</p>
+            <ul>
+              <li>"Our client is considering a merger. They haven't shared financials. What should inform their thinking?"</li>
+              <li>"A new AI competitor has entered our client's space. What should we recommend they do in the next 90 days?"</li>
+              <li>"The executive sponsor likes the strategy but the operating team is resistant. How do we proceed?"</li>
+              <li>"We have 3 hours with the CEO. What do we do with the time?"</li>
+              <li>"The client's brand feels dated but they're afraid to change it. What's our position?"</li>
+            </ul>
+            <p>Each question was submitted to both GPT-4o and Claude 3.5 Sonnet with identical, minimal prompting: just the question, a one-sentence role context ("You are a senior strategy consultant"), and no further guidance.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Results</div>
+            <p><strong>GPT-4o</strong> was consistently more decisive. When asked about the merger, it immediately recommended specific due diligence workstreams. On the resistant operating team, it produced a structured change management playbook. Responses were well-organized, fast to scan, and confident in tone. The risk: confidence occasionally masked complexity. It sometimes gave an authoritative-sounding answer to a question that had no obvious answer.</p>
+
+            <p><strong>Claude 3.5 Sonnet</strong> was more likely to surface the underlying issue before prescribing a solution. On the merger question, it opened with a paragraph questioning what the client was actually trying to decide. On the brand question, it distinguished between brand perception and business risk before offering a direction. Responses were richer but longer and required more navigation.</p>
+
+            <div class="callout">
+              <div class="callout-label">Key Result</div>
+              <p>GPT-4o is better when you need a fast, structured, action-oriented output. Claude is better when you need to think through a problem before committing to a direction. The right model depends on the stage of the work.</p>
+            </div>
+
+            <p>The most instructive case was the "resistant operating team" question. GPT-4o produced a change management checklist immediately. Claude asked: "Is the resistance substantive (they see a flaw in the strategy) or political (they feel excluded from the process)?" — and then forked into two separate recommendations. That distinction is exactly the kind of strategic nuance that matters in practice.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Complications &amp; Caveats</div>
+            <p>This experiment used very short prompts by design, so it's measuring default model behavior — not maximum capability. With more structured prompts, both models likely produce closer results.</p>
+            <p>It's also worth noting that GPT-4o's decisiveness isn't always a bug. In client contexts, sometimes what's needed is a structured starting point to react to, not a more nuanced exploration. The "best" model genuinely varies by use case.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Takeaway</div>
+            <div class="callout callout--green">
+              <div class="callout-label">The Principle</div>
+              <p>Match the model to the moment. Use GPT-4o when you need action and structure fast. Use Claude when the problem is genuinely ambiguous and you need to think before acting. Stop defaulting to one model for everything.</p>
+            </div>
+            <p>In practice, this means being intentional about model selection the way you'd be intentional about who you put in a room. A model's "personality" shapes the thinking it surfaces — and that has downstream effects on the work.</p>
+          </div>
+
+        </div>
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="experiment-sidebar">
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Experiment Details</div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Date</span>
+              <span class="sidebar-row-value">March 22, 2026</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Tools / Models</span>
+              <span class="sidebar-row-value">GPT-4o, Claude 3.5 Sonnet</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Category</span>
+              <span class="sidebar-row-value">Model Comparison</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Effort</span>
+              <span class="sidebar-row-value">~4 hours</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Signal level</span>
+              <span class="sidebar-row-value">High</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Related</div>
+            <div class="sidebar-row">
+              <a href="experiment-001.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">← Experiment 001: Prompt Engineering</a>
+            </div>
+            <div class="sidebar-row">
+              <a href="experiment-003.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">Experiment 003: Workshop Synthesis →</a>
+            </div>
+            <div class="sidebar-row">
+              <a href="../learnings/index.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">Learnings: Model selection matters →</a>
+            </div>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

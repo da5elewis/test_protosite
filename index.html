@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Field Notes — AI Experiments & Learning</title>
+  <meta name="description" content="A living log of AI experiments, patterns, and practical learnings from strategy work.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="experiments/index.html">Experiments</a></li>
+        <li><a href="learnings/index.html">Learnings</a></li>
+        <li><a href="about/index.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="container">
+      <span class="eyebrow">Field Notes</span>
+      <h1>What we're learning<br>from working with AI</h1>
+      <p class="hero-desc">
+        A running log of experiments, observations, and hard-won insights from applying AI tools to real strategy work. Built to share, not to impress.
+      </p>
+      <div class="hero-actions">
+        <a href="experiments/index.html" class="btn btn-primary">Browse Experiments →</a>
+        <a href="about/index.html" class="btn btn-ghost">How this works</a>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="stats-bar">
+        <div class="stat">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Experiments logged</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Key learnings</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">3</div>
+          <div class="stat-label">AI tools tested</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">Apr '26</div>
+          <div class="stat-label">Last updated</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── RECENT EXPERIMENTS ── -->
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Recent Experiments</h2>
+          <a href="experiments/index.html" class="section-link">View all →</a>
+        </div>
+
+        <div class="card-grid">
+
+          <!-- Card 1 -->
+          <article class="card">
+            <div class="card-meta">
+              <span class="card-date">Apr 1, 2026</span>
+              <span class="status-badge status--complete">Complete</span>
+            </div>
+            <h3>Using AI to Synthesize Workshop Outputs</h3>
+            <p>Tested whether Claude could turn raw sticky-note exports into a structured synthesis doc — with minimal prompting versus a detailed template.</p>
+            <div class="tags">
+              <span class="tag tag--blue">Synthesis</span>
+              <span class="tag">Claude 3 Opus</span>
+            </div>
+            <div class="card-footer">
+              <span class="tag tag--green">High signal</span>
+              <a href="experiments/experiment-003.html" class="card-link card-link-overlay">Read more →</a>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card">
+            <div class="card-meta">
+              <span class="card-date">Mar 22, 2026</span>
+              <span class="status-badge status--complete">Complete</span>
+            </div>
+            <h3>Model Comparison: Handling Ambiguous Client Briefs</h3>
+            <p>Gave the same five ambiguous strategic questions to GPT-4o and Claude 3.5 Sonnet. Compared quality, nuance, and usefulness of their responses.</p>
+            <div class="tags">
+              <span class="tag">GPT-4o</span>
+              <span class="tag">Claude 3.5 Sonnet</span>
+            </div>
+            <div class="card-footer">
+              <span class="tag tag--yellow">Nuanced</span>
+              <a href="experiments/experiment-002.html" class="card-link card-link-overlay">Read more →</a>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card">
+            <div class="card-meta">
+              <span class="card-date">Mar 10, 2026</span>
+              <span class="status-badge status--complete">Complete</span>
+            </div>
+            <h3>Prompt Engineering for Strategy Briefs</h3>
+            <p>Can an LLM turn bullet-point notes into a client-ready strategy brief? Tested with zero context, role prompting, and few-shot examples.</p>
+            <div class="tags">
+              <span class="tag tag--blue">Prompt Design</span>
+              <span class="tag">Claude 3.5 Sonnet</span>
+            </div>
+            <div class="card-footer">
+              <span class="tag tag--green">High signal</span>
+              <a href="experiments/experiment-001.html" class="card-link card-link-overlay">Read more →</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── KEY LEARNINGS ── -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2>Key Learnings</h2>
+          <a href="learnings/index.html" class="section-link">View all →</a>
+        </div>
+
+        <div class="two-col">
+
+          <div class="insight-card">
+            <div class="insight-number">01</div>
+            <h3>Context is everything</h3>
+            <p>The quality of AI output is almost entirely determined by the context you provide — background, audience, constraints, tone. Generic prompts return generic output.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">02</div>
+            <h3>Model choice should match the task</h3>
+            <p>Different models have meaningfully different strengths. Claude tends toward nuance and caution; GPT-4o is more decisive and action-oriented. Neither is universally better.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">03</div>
+            <h3>Treat prompts like hypotheses</h3>
+            <p>The best results come from iteration, not inspiration. Write a prompt, evaluate the output critically, and refine. This is the same discipline as any good strategy work.</p>
+          </div>
+
+          <div class="insight-card">
+            <div class="insight-number">04</div>
+            <h3>AI multiplies, not replaces</h3>
+            <p>The sharpest outputs come when you bring domain knowledge and judgment, then use AI as a force multiplier — not a substitute for thinking.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

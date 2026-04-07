@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 003: Synthesizing Workshop Outputs — Field Notes</title>
+  <meta name="description" content="Using Claude to transform raw workshop notes into structured synthesis documents.">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">
+        <span class="nav-brand-name">Field Notes</span>
+        <span class="nav-brand-sub">AI Experiments &amp; Learning</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Experiments</a></li>
+        <li><a href="../learnings/index.html">Learnings</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── EXPERIMENT HEADER ── -->
+  <header class="experiment-header">
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.5 11L4.5 7L8.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        All Experiments
+      </a>
+      <div class="experiment-header-meta">
+        <span class="status-badge status--complete">Complete</span>
+        <span class="tag tag--blue">Synthesis</span>
+        <span class="tag">Claude 3 Opus</span>
+      </div>
+      <h1>Using AI to Synthesize Workshop Outputs</h1>
+      <p class="experiment-header-desc">
+        Synthesis is one of the most time-intensive parts of workshop facilitation. We tested whether AI can do it well — and found the answer depends almost entirely on how well you set it up.
+      </p>
+    </div>
+  </header>
+
+  <!-- ── EXPERIMENT BODY ── -->
+  <div class="experiment-body">
+    <div class="container">
+      <div class="experiment-layout">
+
+        <!-- ── MAIN CONTENT ── -->
+        <div class="experiment-content">
+
+          <div class="experiment-section">
+            <div class="section-label">Context &amp; Goal</div>
+            <p>Post-workshop synthesis is a staple of strategy consulting — and a significant time sink. A typical two-day workshop generates 400+ sticky notes, several Miro boards, and hours of audio recordings. Turning all of that into a coherent synthesis document ready to share with stakeholders often takes a full day or more.</p>
+            <p>We wanted to test whether AI could compress that cycle meaningfully. Not replace judgment, but accelerate the first 60% of the work — grouping themes, surfacing tensions, drafting initial section structures — so humans can focus energy on interpretation and recommendations.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">What We Tried</div>
+            <p>We exported sticky note content from a real (anonymized) Miro board — approximately 280 individual notes across 8 clusters — and tested two prompting approaches:</p>
+
+            <p><strong>Approach A — Minimal prompt:</strong> Pasted all sticky content and asked Claude to "organize these into a synthesis document with key themes and insights." No structure guidance.</p>
+
+            <p><strong>Approach B — Structured template prompt:</strong> Provided a synthesis document template (with section headers: Strategic Tensions, Aligned Priorities, Divergent Perspectives, Open Questions, Recommended Focus Areas) and asked Claude to populate it from the same notes. Role context and audience were specified upfront.</p>
+
+            <p>We also ran a third pass: taking Approach B's output and using a follow-up prompt to stress-test its conclusions — asking Claude to identify what it might have missed, what themes were underrepresented, and where it had made interpretive leaps.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Results</div>
+            <p><strong>Approach A</strong> produced a flat list of themes. It was accurate but thin — it grouped similar content but made no interpretive moves. There were no tensions identified, no sense of what mattered most, no recommended focus. It was a good first step in organizing content, but not useful as a deliverable.</p>
+
+            <p><strong>Approach B</strong> was dramatically better. Claude populated the template with substance: it identified three meaningful strategic tensions, surfaced four open questions the group had not explicitly named, and flagged two areas of apparent consensus that we had not noticed in the room. The output was ready for light editing, not a rewrite.</p>
+
+            <div class="callout">
+              <div class="callout-label">Surprise Finding</div>
+              <p>Claude identified a tension in the sticky notes that the facilitation team had missed: two clusters that appeared to be about different topics (talent and technology) were actually arguing opposite sides of the same underlying question about organizational control. That's a genuine synthesis insight, not just organization.</p>
+            </div>
+
+            <p>The <strong>stress-test follow-up prompt</strong> was unexpectedly valuable. When asked to critique its own synthesis, Claude flagged that it had underrepresented one cluster (which turned out to contain the most junior voices from the workshop) and had made an interpretive assumption about one section that wasn't fully supported. Both observations were accurate and worth acting on.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Complications &amp; Caveats</div>
+            <p>The approach requires high-quality inputs. When sticky notes were ambiguous, one-word, or lacked context, Claude either ignored them or misinterpreted them. The garbage-in problem is real. Workshop capture quality directly determines synthesis quality.</p>
+            <p>We also noticed that Claude's synthesis reflected the volume of notes per cluster, not their strategic importance. High-volume clusters got more space even when they were less important. The human had to recalibrate emphasis after the fact.</p>
+            <p>Finally: this approach requires sharing potentially sensitive client content with an external model. That's a non-trivial consideration that needs to be addressed in your team's data governance practice before you build this into a standard workflow.</p>
+          </div>
+
+          <div class="experiment-section">
+            <div class="section-label">Takeaway</div>
+            <div class="callout callout--green">
+              <div class="callout-label">The Principle</div>
+              <p>AI synthesis is only as good as the structure you give it. A template transforms AI from a note-organizer into a thinking partner. After any AI synthesis, always prompt it to critique its own output — it will catch things you won't.</p>
+            </div>
+            <p>The practical upshot: build synthesis templates into your standard toolkit. Define the sections that matter for each deliverable type. Pair every synthesis run with a follow-up critique prompt. Treat the AI as a smart first reader — one that works fast, doesn't get tired, and has no emotional attachment to any particular interpretation — then apply your own judgment to what it surfaces.</p>
+          </div>
+
+        </div>
+
+        <!-- ── SIDEBAR ── -->
+        <aside class="experiment-sidebar">
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Experiment Details</div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Date</span>
+              <span class="sidebar-row-value">April 1, 2026</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Tool / Model</span>
+              <span class="sidebar-row-value">Claude 3 Opus</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Category</span>
+              <span class="sidebar-row-value">Synthesis</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Effort</span>
+              <span class="sidebar-row-value">~5 hours</span>
+            </div>
+            <div class="sidebar-row">
+              <span class="sidebar-row-label">Signal level</span>
+              <span class="sidebar-row-value">High</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">Related</div>
+            <div class="sidebar-row">
+              <a href="experiment-002.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">← Experiment 002: Model Comparison</a>
+            </div>
+            <div class="sidebar-row">
+              <a href="../learnings/index.html" style="font-size:0.875rem; color:var(--accent); font-weight:500;">Learnings: AI as thinking partner →</a>
+            </div>
+          </div>
+
+          <div class="sidebar-card" style="background:var(--yellow-light); border-color:transparent;">
+            <div class="sidebar-card-title" style="color:var(--yellow);">Data note</div>
+            <p style="font-size:0.8rem; color:var(--yellow); line-height:1.55;">This experiment used anonymized client content. Review your organization's data handling guidelines before using external AI tools with real client data.</p>
+          </div>
+
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <p class="footer-left"><strong>Field Notes</strong> — a living document, not a finished product.</p>
+      <p class="footer-right">Built in HTML. Updated as we learn.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
