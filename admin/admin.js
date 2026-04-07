@@ -735,8 +735,12 @@
     handle.queryPermission({ mode: 'readwrite' }).then(function (perm) {
       if (perm === 'granted') {
         setConnected(handle);
+      } else if (perm === 'prompt') {
+        // Re-request permission silently — browser will auto-grant if not revoked
+        handle.requestPermission({ mode: 'readwrite' }).then(function (newPerm) {
+          if (newPerm === 'granted') { setConnected(handle); }
+        });
       }
-      // If 'prompt', leave as disconnected — user must click connect to re-grant
     });
   }).catch(function () { /* IndexedDB unavailable */ });
 
